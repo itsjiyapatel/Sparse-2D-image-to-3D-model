@@ -1,48 +1,77 @@
-# Sparse 2D Image to 3D Model Reconstruction
+# 🧱 Sparse 2D to 3D Scene Reconstruction using Hybrid Neural Networks
 
-This project focuses on reconstructing 3D scenes from sparse 2D images using a hybrid deep learning pipeline. It leverages voxel grids, 3D CNNs, Graph Neural Networks (GNNs), and Neural Radiance Fields (NeRF) to produce accurate 3D mesh representations of outdoor scenes, with data sourced from the KITTI dataset.
-
-## 🧠 Motivation
-
-Sparse 2D images are often all we have in real-world driving scenarios. This project addresses the challenge of generating detailed 3D representations from minimal input views—critical for autonomous driving, robotics, and scene understanding.
+A pipeline for reconstructing detailed 3D outdoor scenes from sparse 2D stereo images using a hybrid neural architecture. The system combines volumetric, mesh, and implicit representations to enhance spatial resolution, trained and tested on the KITTI dataset.
 
 ---
 
-## 📌 Features
+## 🏗️ High-Level Architecture
 
-- ✅ Sparse 2D input support (few-view reconstruction)
-- ✅ Voxel grid generation from 2D image inputs
-- ✅ 3D Convolutional Neural Network for coarse geometry prediction
-- ✅ GNN-based refinement of topological structure
-- ✅ NeRF module for realistic surface rendering
-- ✅ Final output as a textured 3D mesh or point cloud
+<img src="hld-3d-reconstruction.jpg" alt="3D Scene Reconstruction Architecture" width="700"/>
+
+> The pipeline starts with 2D image preprocessing from the KITTI dataset, followed by feature extraction and voxel grid generation. These are passed through 3D CNNs for volumetric representation, then meshed with GNNs, and finally refined using NeRF-based implicit learning for photorealistic rendering.
 
 ---
 
+## 🔧 System Flow
 
-## 🛠 Architecture Overview
+### 🖼 Step 1: Data Preprocessing
+- Normalize and resize KITTI stereo images
+- Generate sparse disparity maps
 
-Sparse 2D Images
-↓
-Preprocessing (resize, calibrate)
-↓
-Voxel Grid Generation
-↓
-3D CNN (Feature Extraction & Coarse Shape)
-↓
-Graph Neural Network (Refinement)
-↓
-NeRF (Photorealistic Reconstruction)
-↓
-3D Mesh / Point Cloud Output
+### 🧠 Step 2: Feature Extraction
+- Use CNNs to extract dense spatial features from 2D inputs
+
+### 🧱 Step 3: Voxel Grid + 3D CNN
+- Construct voxel grids from extracted features
+- Apply 3D convolutions for volumetric representation
+
+### 🕸 Step 4: Mesh Generation + GNN
+- Apply marching cubes to convert voxels to mesh
+- Refine geometry using Graph Neural Networks
+
+### 🔁 Step 5: NeRF-based Implicit Representation
+- Apply NeRF to model lighting and fine geometry
+- Output photorealistic scene reconstructions
+
+### 🎥 Step 6: Rendering
+- Render final 3D scene with optimized views
 
 ---
 
-## 📂 Dataset
+## 🛠️ Tech Stack
 
-- **Source**: [KITTI Vision Benchmark Suite](http://www.cvlibs.net/datasets/kitti/)
-- **Preprocessing**: Image resizing, depth-map extraction, camera calibration
-- **Split**: Train / Test / Validation (80 / 10 / 10)
+| Component       | Tools / Frameworks             |
+|----------------|-------------------------------|
+| Dataset         | KITTI (Stereo + Calibration)  |
+| Data Handling   | NumPy, OpenCV, TorchVision    |
+| Feature Models  | 2D/3D CNNs (PyTorch)          |
+| Mesh Network    | PyTorch Geometric, GNN        |
+| Implicit Model  | NeRF (PyTorch implementation) |
+| Visualization   | Matplotlib, MeshLab, Open3D   |
 
 ---
 
+## 💡 Features
+
+- Converts sparse stereo imagery into dense 3D models
+- Combines voxel, mesh, and NeRF for high-detail output
+- Modular architecture for testing different 3D representations
+- Works with real-world outdoor scenes (KITTI)
+
+---
+
+## 🧪 Example Input
+
+**Left Image**: 2D stereo image (KITTI)  
+**Right Image**: Corresponding right stereo frame  
+**Output**: High-resolution mesh + NeRF-rendered 3D scene
+
+---
+
+## 📦 Installation
+
+```bash
+git clone https://github.com/yourusername/sparse-2d-to-3d.git
+cd sparse-2d-to-3d
+pip install -r requirements.txt
+python run_pipeline.py
