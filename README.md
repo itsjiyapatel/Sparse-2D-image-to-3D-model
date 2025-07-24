@@ -6,7 +6,7 @@ A pipeline for reconstructing detailed 3D outdoor scenes from sparse 2D stereo i
 
 ## 🏗️ High-Level Architecture
 
-<img src="hld-3d-reconstruction.jpg" alt="3D Scene Reconstruction Architecture" width="700"/>
+<img src="tdl.jpg" alt="3D Scene Reconstruction Architecture" width="700"/>
 
 > The pipeline starts with 2D image preprocessing from the KITTI dataset, followed by feature extraction and voxel grid generation. These are passed through 3D CNNs for volumetric representation, then meshed with GNNs, and finally refined using NeRF-based implicit learning for photorealistic rendering.
 
